@@ -1,0 +1,28 @@
+{
+  "name": "whatsapp-bot",
+  "version": "1.0.0",
+  "description": "Whatsapp bot with whatsapp-web.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mee-i/whatsapp-bot-js.git"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot"
+  ],
+  "author": "mee-i",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mee-i/whatsapp-bot-js/issues"
+  },
+  "homepage": "https://github.com/mee-i/whatsapp-bot-js#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.26.0"
+  }
+}
