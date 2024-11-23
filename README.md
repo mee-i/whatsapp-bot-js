@@ -23,7 +23,7 @@ A simple and customizable WhatsApp bot built using the [`whatsapp-web.js`](https
    ```bash
    sudo apt install nodejs git
    ```
-2. Clone the repository:
+2. Clone repository:
    ```bash
    git clone https://github.com/mee-i/whatsapp-bot-js
    ```
