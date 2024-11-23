@@ -23,12 +23,20 @@ A simple and customizable WhatsApp bot built using the [`whatsapp-web.js`](https
    ```bash
    sudo apt install nodejs git
    ```
-2. Install Library Using npm
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/mee-i/whatsapp-bot-js
+   ```
+3. Open Whatsapp-Bot-JS folder:
+   ```bash
+   cd whatsapp-bot-js
+   ```
+4. Install Library Using npm
    ```bash
    npm i
    ```
-3. Run Whatsapp bot
+5. Run Whatsapp bot
    ```bash
    node .
    ```
-4. Scan qr code in terminal
+6. Scan qr code in terminal
