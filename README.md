@@ -23,11 +23,11 @@ A simple and customizable WhatsApp bot built using the [`whatsapp-web.js`](https
    ```bash
    sudo apt install nodejs git
    ```
-2. Clone repository:
+2. Clone Repository:
    ```bash
    git clone https://github.com/mee-i/whatsapp-bot-js
    ```
-3. Open Whatsapp-Bot-JS folder:
+3. Open Whatsapp-Bot-JS Folder:
    ```bash
    cd whatsapp-bot-js
    ```
@@ -39,4 +39,4 @@ A simple and customizable WhatsApp bot built using the [`whatsapp-web.js`](https
    ```bash
    node .
    ```
-6. Scan qr code in terminal
+6. Scan QR Code In Terminal
