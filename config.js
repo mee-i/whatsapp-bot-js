@@ -3,7 +3,9 @@ const Config = {
     owner: '6281220533069',
     admin: []
 };
+var FunctionCommand = {};
 
 module.exports = {
-    Config
+    Config,
+    FunctionCommand
 };
