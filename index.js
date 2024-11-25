@@ -1,9 +1,11 @@
-const { Client, LocalAuth } = require("whatsapp-web.js");
+const { Client, LocalAuth, MessageMedia } = require("whatsapp-web.js");
 const { Config, FunctionCommand } = require("./config.js");
-const fs = require("fs")
-const path = require("path");
+const { Chat, getParameterNames } = require("./utilities/utilities.js");
+const figlet = require("figlet");
 var colors = require("colors");
 var qrcode = require("qrcode-terminal");
+const { LoadModules } = require("./load-modules");
+
 
 colors.setTheme({
 	silly: "rainbow",
@@ -17,6 +19,10 @@ colors.setTheme({
 	debug: "blue",
 	error: "red",
 });
+
+const IsCommand = (body) => {
+    return Config.prefix.some((p) => body.startsWith(p));
+};
 
 const client = new Client({
 	authStrategy: new LocalAuth(),
@@ -38,21 +44,25 @@ client.on("ready", () => {
 });
 
 client.on("message_create", async (msg) => {
-	console.log("Received a message: ".data, msg.body.info);
+    if (msg.fromMe)
+        return;
+    const chat = await msg.getChat();
 	if (!msg.hasMedia) {
-		const parts = msg.body.split(" ");
-		const IsCommand = () => {
-			return Config.prefix.some((p) => parts[0].startsWith(p));
-		};
-		const args = parts.shift();
-
-		if (IsCommand()) {
-			const CommandWithoutPrefix = parts[0].slice(1);
+        console.log(`[${chat.name.help}][${colors.help(`+${Chat(msg).getPhone()}`)}]: ${msg.body.info}`);
+		if (IsCommand(msg.body)) {
+            let args = msg.body.split(" ");
+			const CommandWithoutPrefix = args[0].slice(1);
+            if (CommandWithoutPrefix == "reloadmenu") {
+                await LoadModules(client);
+                msg.reply("All modules reloaded successfully.");
+                return;
+            }
+            args.shift();
 			Object.keys(FunctionCommand).forEach((menuname) => {
 				if (FunctionCommand[menuname][CommandWithoutPrefix]) {
 					const Func = FunctionCommand[menuname][CommandWithoutPrefix];
 					const Params = getParameterNames(Func);
-					const FuncParameterLength = Params.length - 2;
+					const FuncParameterLength = Params.length - 1;
 					if (args.length < FuncParameterLength) {
 						msg.reply("Need more parameters");
 					} else {
@@ -61,13 +71,12 @@ client.on("message_create", async (msg) => {
 						}
 
 						try {
-							Func(sock, msg, ...args);
+							Func(msg, ...args);
 						} catch (error) {
 							client.sendMessage(Config.owner + "@s.whatsapp.net", `[ERROR REPORT]
-                            Command: *${msg.body}*
-                            Menu: *${menuname}*
-                            Error: _${error.message}_
-                            `);
+Command: *${msg.body}*
+Menu: *${menuname}*
+Error: _${error.message}_`);
 						}
 					}
 				}
@@ -76,39 +85,17 @@ client.on("message_create", async (msg) => {
 	}
 });
 
-fs.readdir("./modules/", (err, files) => {
-	if (err) {
-		console.error("Error reading the directory:", err);
-		return;
-	}
+(async () => {
+    try {
+        console.log("Loading modules...");
+        await LoadModules(client); // Menunggu semua module selesai di-load
+        console.log("All modules loaded successfully.");
 
-	// Menjalankan setiap file JavaScript
-	files.forEach((file) => {
-		const filePath = "./modules/" + file;
-		if (path.extname(file) === ".js") {
-			console.log("Loading %s", filePath);
-			const lib = require(filePath);
-			let MenuName = "";
-			let disableMenu = [];
-
-			// Memeriksa apakah lib.Config ada dan mengatur nama menu jika tersedia
-			if (lib.Config) {
-				if (lib.Config.menu) MenuName = lib.Config.menu;
-				if (lib.Config.disableMenu) disableMenu = lib.Config.disableMenu;
-				delete lib.Config;
-			}
-
-			if (!FunctionCommand[MenuName]) {
-				FunctionCommand[MenuName] = {};
-			}
-
-			Object.keys(lib).forEach((key) => {
-				if (!disableMenu.includes(key)) {
-					FunctionCommand[MenuName][key] = lib[key];
-				}
-			});
-		}
-	});
-});
-
-client.initialize();
+        // Setelah module selesai di-load, inisialisasi bot
+        console.log(figlet.textSync("MeeI Whatsapp Bot").help);
+        console.log('Starting Bot...');
+        client.initialize();
+    } catch (error) {
+        console.error("Failed to load modules:", error);
+    }
+})();
