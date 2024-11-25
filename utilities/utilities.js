@@ -9,10 +9,10 @@ function Chat(msg) {
     return {
         getPhone,
         IsOwner: () => {
-            return Config.owner === getPhone();
+            return Config.owner === getNumber();
         },
         IsAdmin: () => {
-            return Config.admin.includes(getPhone());
+            return Config.admin.includes(getNumber());
         }
     };
 };
