@@ -48,7 +48,7 @@ client.on("message_create", async (msg) => {
         return;
     const chat = await msg.getChat();
 	if (!msg.hasMedia) {
-        console.log(`[${chat.name.help}][${colors.help(`+${Chat(msg).getPhone()}`)}]: ${msg.body.info}`);
+        console.log(`[${chat.name.help}][${colors.help(`+${Chat(msg).getNumber()}`)}]: ${msg.body.info}`);
 		if (IsCommand(msg.body)) {
             let args = msg.body.split(" ");
 			const CommandWithoutPrefix = args[0].slice(1);
