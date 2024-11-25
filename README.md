@@ -5,13 +5,13 @@ A simple and customizable WhatsApp bot built using the [`whatsapp-web.js`](https
 ## Features
 
 - Send automated replies.
-- Command-based interaction (e.g., `/ping` responds with `Pong!`).
+- Command-based interaction (e.g., `/say Hello World!` responds with `Hello World!`).
 
 ---
 
 ## TODO
-- [ ] Make it easy to create command with function
-- [ ] Automatically generate menu list
+- [x] Make it easy to create command with function
+- [x] Automatically generate menu list
 - [ ] Youtube, instagram, tiktok, downloader
 - [ ] AI Chat bot
 - [ ] Earthquake Notification
