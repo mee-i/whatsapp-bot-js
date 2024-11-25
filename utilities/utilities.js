@@ -2,7 +2,7 @@
 const { Config } = require("../config");
 
 function Chat(msg) {
-    const getPhone = () => {
+    const getNumber = () => {
         return msg.author ? msg.author.replace("@c.us", "") : msg.from.replace("@c.us", "");
     };
 
